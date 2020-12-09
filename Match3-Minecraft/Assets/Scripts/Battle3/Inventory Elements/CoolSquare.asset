@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f31feeaf19819614fa1d7168a96b78d9, type: 3}
   m_Name: CoolSquare
   m_EditorClassIdentifier: 
-  id: -2
+  id: 2
   name: cool_sqr
   texture: {fileID: 21300000, guid: 747ed94be84e18b4ab4a5e89b4f0fa9c, type: 3}

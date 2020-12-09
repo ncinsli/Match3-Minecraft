@@ -7,14 +7,12 @@ public class DeleteObjectOnSelect : MonoBehaviour{
     private SelectableResource resourceAttached;
     private void Awake(){ 
         resourceAttached = GetComponent<SelectableResource>();
-        Selector.instance.OnButtonUp += resources => {
-            foreach (var resource in resources){ 
-                if (resource != null) Destroy(resource.gameObject);
-            }
-        }; 
+        Selector.instance.OnButtonUp += DestroySelected;
     }
-    private void OnDisable() => 
-        Selector.instance.OnButtonUp -= resources => {
-            foreach (var resource in resources) Destroy(resource.gameObject);
-        }; 
+    private void DestroySelected(SelectableResource[] resources){
+        foreach (var resource in resources){ 
+            if (resource != null) Destroy(resource.gameObject);
+        }
+    }
+    private void OnDisable() => Selector.instance.OnButtonUp -= DestroySelected;
 }

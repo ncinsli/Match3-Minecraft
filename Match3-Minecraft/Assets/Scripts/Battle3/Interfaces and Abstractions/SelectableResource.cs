@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -9,7 +10,8 @@ public class SelectableResource : MonoBehaviour{
     [SerializeField] private List<SelectableResource> neighbours = new List<SelectableResource>();
     public event Action<SelectableResource> OnSelect;
     [SerializeField] private InventoryElement info; //Сам элемент, который хранит выбранный ресурс
-    private Color originColor; private bool isSelected;
+    private Color originColor; 
+    private bool isSelected;
     public Vector2 gridPosition{ //В проекте есть свой класс сетки, этот метод вызывает этот класс и возвращает позицию  
         get{ 
             Vector2 p = Vector2.zero;
@@ -23,12 +25,9 @@ public class SelectableResource : MonoBehaviour{
     private void OnMouseDown() => TrySelect();
     private void OnMouseEnter() => TrySelect();
     private void TrySelect(){ //Дабы код функций не дублировался
-        if (isSelected) return; var selectedObjectsCount = 0;
-        foreach (var neighbour in neighbours){
-            if (neighbour.isSelected && neighbour.info.id == info.id) OnSelect?.Invoke(this);
-            if (neighbour.isSelected) selectedObjectsCount++;
-        }
-        if (selectedObjectsCount == 0) OnSelect?.Invoke(this);
+        if (isSelected) return; 
+        bool canSelect = neighbours.Any(n => n.isSelected && n.info.id == info.id) || Selector.instance.firstSelected == null;
+        if (canSelect) OnSelect?.Invoke(this);
     }
 
 //  @temp!
