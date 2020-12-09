@@ -7,12 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class SelectableResource : MonoBehaviour{
     [SerializeField] private List<SelectableResource> neighbours = new List<SelectableResource>();
-    [SerializeField] private InventoryElement info; //Сам элемент, который хранит выбранный ресурс
     public event Action<SelectableResource> OnSelect;
-    private Color originColor;
-    private bool isSelected;
-    private void Awake() => originColor = GetComponent<SpriteRenderer>().color;
-
+    [SerializeField] private InventoryElement info; //Сам элемент, который хранит выбранный ресурс
+    private Color originColor; private bool isSelected;
     public Vector2 gridPosition{ //В проекте есть свой класс сетки, этот метод вызывает этот класс и возвращает позицию  
         get{ 
             Vector2 p = Vector2.zero;
@@ -21,13 +18,17 @@ public class SelectableResource : MonoBehaviour{
             return p / BattleGrid.instance.cellSize;
         }
     }
-    private void OnMouseEnter(){
-        if (isSelected) return;
-        OnSelect?.Invoke(this);
-    }
-    private void OnMouseDown() {
-        if (isSelected) return;
-        OnSelect?.Invoke(this);
+    private void Awake() => originColor = GetComponent<SpriteRenderer>().color;
+    private void OnMouseDrag() => TrySelect();
+    private void OnMouseDown() => TrySelect();
+    private void OnMouseEnter() => TrySelect();
+    private void TrySelect(){ //Дабы код функций не дублировался
+        if (isSelected) return; var selectedObjectsCount = 0;
+        foreach (var neighbour in neighbours){
+            if (neighbour.isSelected && neighbour.info.id == info.id) OnSelect?.Invoke(this);
+            if (neighbour.isSelected) selectedObjectsCount++;
+        }
+        if (selectedObjectsCount == 0) OnSelect?.Invoke(this);
     }
 
 //  @temp!

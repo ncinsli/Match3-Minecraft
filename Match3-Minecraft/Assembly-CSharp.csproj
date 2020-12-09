@@ -36,10 +36,11 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Battle3\Interfaces&amp;Abstractions\BattleGrid.cs" />
-     <Compile Include="Assets\Scripts\Battle3\Interfaces&amp;Abstractions\InventoryElement.cs" />
-     <Compile Include="Assets\Scripts\Battle3\Interfaces&amp;Abstractions\SelectableResource.cs" />
-     <Compile Include="Assets\Scripts\Battle3\Interfaces&amp;Abstractions\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Battle3\AdditionalBehaviour\DeleteObjectOnSelect.cs" />
+     <Compile Include="Assets\Scripts\Battle3\Interfaces and Abstractions\BattleGrid.cs" />
+     <Compile Include="Assets\Scripts\Battle3\Interfaces and Abstractions\InventoryElement.cs" />
+     <Compile Include="Assets\Scripts\Battle3\Interfaces and Abstractions\SelectableResource.cs" />
+     <Compile Include="Assets\Scripts\Battle3\Interfaces and Abstractions\Singleton.cs" />
      <Compile Include="Assets\Scripts\Battle3\Selector.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
