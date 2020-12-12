@@ -41,7 +41,11 @@
      <Compile Include="Assets\Scripts\Battle3\Interfaces and Abstractions\InventoryElement.cs" />
      <Compile Include="Assets\Scripts\Battle3\Interfaces and Abstractions\SelectableResource.cs" />
      <Compile Include="Assets\Scripts\Battle3\Interfaces and Abstractions\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Battle3\ItemsSaver.cs" />
+     <Compile Include="Assets\Scripts\Battle3\ResourceSpawner.cs" />
      <Compile Include="Assets\Scripts\Battle3\Selector.cs" />
+     <None Include="Assets\JsonDotNet\link.xml" />
+     <None Include="Assets\Lean\READ ME.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -218,6 +222,15 @@
     </Reference>
     <Reference Include="UnityEditor">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+        <HintPath>D:/Match3-Minecraft/Match3-Minecraft/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+        <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+        <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -647,6 +660,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="LeanPool.csproj">
+      <Project>{2a03e527-b871-d83f-992c-015cf54161b7}</Project>
+      <Name>LeanPool</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="LeanCommon.csproj">
+      <Project>{05d1026b-aed5-7170-f7da-7ca4707d45c0}</Project>
+      <Name>LeanCommon</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

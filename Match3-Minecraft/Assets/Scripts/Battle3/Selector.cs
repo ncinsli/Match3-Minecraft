@@ -4,18 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Selector : Singleton<Selector>{
-    [SerializeField] private List<SelectableResource> resources; 
     public event Action<SelectableResource[]> OnButtonUp;
     public SelectableResource firstSelected; //То есть, тип объекта, который мы выбрали
-    private List<SelectableResource> selectedResources = new List<SelectableResource>();
+    [SerializeField] private List<SelectableResource> selectedResources = new List<SelectableResource>();
     private float mouseDeltaModifier = 0.15f; //Так как дельта мыши высчитывается странно, введём магическое число
     private Vector2 mousePositionSinceClick;
     private bool canSelect;
-    private RaycastHit hit;
-    private void Awake(){ 
-        foreach (var resource in resources)
-            resource.OnSelect += SelectResource; 
-    }
+    private RaycastHit hit; //Теперь ресурсы сами подписываются на селект их
     private void Update() {
         if (Input.GetMouseButtonUp(0)){ 
             OnButtonUp?.Invoke(selectedResources.ToArray());
@@ -24,7 +19,7 @@ public class Selector : Singleton<Selector>{
         if (Input.GetMouseButton(0)) canSelect = true; 
     }
 
-    private void SelectResource(SelectableResource resource){
+    public void SelectResource(SelectableResource resource){
         if (canSelect){ 
             resource.Select();
             selectedResources.Add(resource); 
@@ -32,14 +27,15 @@ public class Selector : Singleton<Selector>{
         }
     }
     private void OnDestroy(){
-        foreach (var resource in resources)
-            resource.OnSelect -= SelectResource;
+        foreach (var resource in selectedResources)
+            if (resource != null) resource.OnSelect -= SelectResource;
     }
     public void DeselectAll(){
         canSelect = false;
-        foreach (var resource in resources)
+        foreach (var resource in selectedResources)
             if (resource != null) resource.Deselect();
+        selectedResources.Clear();    
         firstSelected = null;
     }    
-
+    public void FetchSelectables() => selectedResources = FindObjectsOfType<SelectableResource>().ToList();
 }

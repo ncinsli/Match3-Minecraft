@@ -1,18 +1,19 @@
-﻿using System.Collections;
+﻿using Lean.Pool;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SelectableResource))]
+[RequireComponent(typeof(Selector))]
 public class DeleteObjectOnSelect : MonoBehaviour{
-    private SelectableResource resourceAttached;
+    private Selector selector;
     private void Awake(){ 
-        resourceAttached = GetComponent<SelectableResource>();
-        Selector.instance.OnButtonUp += DestroySelected;
+        selector = GetComponent<Selector>();
+        selector.OnButtonUp += DestroySelected;
     }
     private void DestroySelected(SelectableResource[] resources){
         foreach (var resource in resources){ 
-            if (resource != null) Destroy(resource.gameObject);
+            if (resource == null) continue;
+            LeanPool.Despawn(resource.gameObject);
         }
     }
-    private void OnDisable() => Selector.instance.OnButtonUp -= DestroySelected;
 }
