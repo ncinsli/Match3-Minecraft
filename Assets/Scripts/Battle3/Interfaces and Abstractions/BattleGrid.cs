@@ -6,14 +6,13 @@ public class BattleGrid : Singleton<BattleGrid>
     [SerializeField] private float _cellSize = 1f;
     [SerializeField] private Vector2Int _cellsCount = new Vector2Int(7, 7);
     [SerializeField] private Bounds _bounds;
-    
     [SerializeField] private SelectableResource _resourcePrefab;
     [SerializeField] private InventoryElement[] _levelElements;
     
 
     private void Awake()
     {
-        var currentPosition = _bounds.min + new Vector3(1, 1) * 0.5f;
+        var currentPosition = _bounds.min + new Vector3(1, 1) * 0.5f * _cellSize;
 
         _cells = new Vector3[_cellsCount.x, _cellsCount.y];
 
@@ -21,7 +20,7 @@ public class BattleGrid : Singleton<BattleGrid>
         {
             for (int y = 0; y < _cellsCount.y; y++)
             {
-                var resource = Instantiate(_resourcePrefab);
+                var resource = Instantiate(_resourcePrefab, transform);
                 InitResource(resource, currentPosition);
                 
                 _cells[x, y] = currentPosition;
@@ -31,7 +30,6 @@ public class BattleGrid : Singleton<BattleGrid>
             currentPosition.x += _cellSize;
             currentPosition.y = _bounds.min.y + _cellSize * 0.5f;
         }
-
         SelectableResource.OnDeselected += SpawnObjectUpwards;
     }
 
@@ -45,7 +43,6 @@ public class BattleGrid : Singleton<BattleGrid>
         var element = RandomChoice(_levelElements);
         resource.Init(element);
         resource.transform.position = absPosition;
-        Debug.Log(resource, resource);
     }
 
     private void SpawnObjectUpwards(SelectableResource deselectedResource)

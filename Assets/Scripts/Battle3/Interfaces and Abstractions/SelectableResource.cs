@@ -4,22 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class SelectableResource : MonoBehaviour
 {
     public static event Action<SelectableResource> OnSelected;
     public static event Action<SelectableResource> OnDeselected;
     public static event Action<SelectableResource> OnTrySelect;
-
-    /// <summary>
-    /// Сам элемент, который хранит выбранный ресурс
-    /// </summary>
     private InventoryElement _info;
-
-    private List<SelectableResource> neighbours = new List<SelectableResource>();
+    public InventoryElement Info => _info;
+    private List<SelectableResource> _neighbours = new List<SelectableResource>();
     private SpriteRenderer _spriteRenderer;
-    private bool isSelected;
+    private bool _isSelected;
     private Color _unselectedeColor = Color.white;
     private Color _selectedColor = Color.gray;
 
@@ -37,18 +33,17 @@ public class SelectableResource : MonoBehaviour
     private void UpdateView()
     {
         _spriteRenderer.sprite = _info.Sprite;
-        _spriteRenderer.color = isSelected ? _selectedColor : _unselectedeColor;
+        _spriteRenderer.color = _isSelected ? _selectedColor : _unselectedeColor;
     }
 
     private void OnMouseDrag() => TrySelect();
     private void OnMouseDown() => TrySelect();
     private void OnMouseEnter() => TrySelect();
-
     private void TrySelect()
     {
         //Дабы код функций не дублировался
-        if (isSelected) return;
-        bool canSelect = neighbours.Any(n => n.isSelected && n._info.ID == _info.ID) ||
+        if (_isSelected) return;
+        bool canSelect = _neighbours.Any(n => n._isSelected && n._info.ID == _info.ID && Selector.instance.LastSelected == n) ||
                          Selector.instance.firstSelected == null;
         
         if (canSelect) OnTrySelect?.Invoke(this);
@@ -57,15 +52,15 @@ public class SelectableResource : MonoBehaviour
 //  @temp!
     public void Select()
     {
-        isSelected = true;
+        _isSelected = true;
         UpdateView();
         OnSelected?.Invoke(this);
     }
 
     public void Deselect()
     {
-        if (isSelected)
-            isSelected = false;
+        if (_isSelected)
+            _isSelected = false;
         UpdateView();
 
         OnDeselected?.Invoke(this);
@@ -75,8 +70,8 @@ public class SelectableResource : MonoBehaviour
     {
         if (col.gameObject.TryGetComponent<SelectableResource>(out var other))
         {
-            if (neighbours.Contains(other)) return;
-            neighbours.Add(other);
+            if (_neighbours.Contains(other)) return;
+            _neighbours.Add(other);
         }
     }
 
@@ -84,7 +79,7 @@ public class SelectableResource : MonoBehaviour
     {
         if (col.gameObject.TryGetComponent<SelectableResource>(out var other))
         {
-            neighbours.Remove(other);
+            _neighbours.Remove(other);
         }
     }
 }
