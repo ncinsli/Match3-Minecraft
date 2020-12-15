@@ -23,6 +23,7 @@ public class Selector : Singleton<Selector>
         if (Input.GetMouseButtonUp(0) && selectedResources.Count > 0)
         {
             OnButtonUp?.Invoke(selectedResources.ToArray());
+            Debug.Log("Up");
             Inventory.instance.Push(selectedResources.First().Info, selectedResources.Count);
             DeselectAll();
         }

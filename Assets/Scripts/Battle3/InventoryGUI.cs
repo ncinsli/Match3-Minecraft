@@ -25,11 +25,9 @@ public class InventoryGUI : Singleton<InventoryGUI>
     }
     public void AddElement(InventoryElement element)
     {
-        if (cells.Any(cell => cell.currentElement == element))
-        {
-            cells.Where(cell => cell.currentElement == element).First().AddItemCount(element);
-        }
-        
-        else cells.Where(cell => cell.currentElement == null).First().SetItem(element);
+        if (!cells.Any(cell => cell.currentElement == element))  //Если элемента нет - создаём со значением 0 
+            cells.Where(cell => cell.currentElement == null).First().SetItem(element);
+
+        cells.Where(cell => cell.currentElement == element).First().AddItemCount(element); //Увеличиваем значение 
     }
 }

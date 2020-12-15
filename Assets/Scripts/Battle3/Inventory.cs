@@ -14,7 +14,7 @@ public class Inventory : ScriptableSingleton<Inventory>
     {
         if (InventoryMap.TryGetValue(element.ID, out int c)) InventoryMap[element.ID] += count;      
         else InventoryMap.Add(element.ID, count); 
-        InventoryGUI.instance.AddElement(element);
+        for(int i = 0; i < count; i++) InventoryGUI.instance.AddElement(element); 
     }
     private void Serialize() //Запись
     {
