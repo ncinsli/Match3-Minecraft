@@ -62,7 +62,7 @@ public class SelectableResource : MonoBehaviour
         if (_isSelected)
             _isSelected = false;
         UpdateView();
-
+        InventoryGUI.instance.AddElement(Info);
         OnDeselected?.Invoke(this);
     }
 

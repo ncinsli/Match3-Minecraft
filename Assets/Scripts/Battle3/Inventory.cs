@@ -14,6 +14,7 @@ public class Inventory : ScriptableSingleton<Inventory>
     {
         if (InventoryMap.TryGetValue(element.ID, out int c)) InventoryMap[element.ID] += count;      
         else InventoryMap.Add(element.ID, count); 
+        InventoryGUI.instance.AddElement(element);
     }
     private void Serialize() //Запись
     {
@@ -28,7 +29,6 @@ public class Inventory : ScriptableSingleton<Inventory>
             InventoryMap = JsonConvert.DeserializeObject<Dictionary<int, int>>(jsonPlayerPrefs);
         }
     }
-
     private void OnEnable() => Deserialize();
     private void OnDisable() => Serialize();
 }
