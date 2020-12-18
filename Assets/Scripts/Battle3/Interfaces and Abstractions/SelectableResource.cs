@@ -65,6 +65,11 @@ public class SelectableResource : MonoBehaviour
         OnDeselected?.Invoke(this);
     }
 
+    public void SafeDeselect(){
+        if (_isSelected) _isSelected = false;
+        UpdateView();
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.TryGetComponent<SelectableResource>(out var other))

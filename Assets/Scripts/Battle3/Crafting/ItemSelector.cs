@@ -18,7 +18,7 @@ public class ItemSelector : Singleton<ItemSelector>
     {
         if (ItemSelector.instance.currentlySelected == null) return;
         cellSelected.PushToCell(ItemSelector.instance.currentlySelected);
-        InventoryGUI.instance.SubstractElement(cellSelected.itemAttached);
+        InventoryGUI.instance.SubstractElement(cellSelected.ItemAttached);
         ItemSelector.instance.Clear();
     }
 

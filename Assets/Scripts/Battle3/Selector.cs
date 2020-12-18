@@ -22,10 +22,22 @@ public class Selector : Singleton<Selector>
     {
         if (Input.GetMouseButtonUp(0) && selectedResources.Count > 0)
         {
-            OnButtonUp?.Invoke(selectedResources.ToArray());
-            Debug.Log("Up");
-            Inventory.instance.Push(selectedResources.First().Info, selectedResources.Count);
-            DeselectAll();
+            if (selectedResources.Count > 2)
+            { 
+                OnButtonUp?.Invoke(selectedResources.ToArray());
+                Inventory.instance.Push(selectedResources.First().Info, selectedResources.Count);
+                DeselectAll();
+            }
+            else
+            {
+                canSelect = false;
+                foreach (var res in selectedResources) 
+                {
+                    res.SafeDeselect();
+                }
+                selectedResources.Clear();
+                firstSelected = null;
+            } 
         }
 
         if (Input.GetMouseButton(0)) canSelect = true;
@@ -49,7 +61,6 @@ public class Selector : Singleton<Selector>
     public void DeselectAll()
     {
         canSelect = false;
-        
         foreach (var resource in selectedResources)
             if (resource != null)
                 resource.Deselect();
