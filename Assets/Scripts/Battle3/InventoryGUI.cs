@@ -20,6 +20,7 @@ public class InventoryGUI : Singleton<InventoryGUI>
             
             cellTransform.position = startPosition;
             startPosition += Vector3.right * spaceBetweenCells;
+            cell.GetComponent<InventoryCell>().order = i;
             cells.Add(cell.GetComponent<InventoryCell>());
         }
     }
@@ -27,7 +28,11 @@ public class InventoryGUI : Singleton<InventoryGUI>
     {
         if (!cells.Any(cell => cell.currentElement == element))  //Если элемента нет - создаём со значением 0 
             cells.Where(cell => cell.currentElement == null).First().SetItem(element);
-
         cells.Where(cell => cell.currentElement == element).First().AddItemCount(element); //Увеличиваем значение 
+    }
+    public void SubstractElement(InventoryElement element)
+    {
+        var cell = cells.Where(c => c.currentElement == element).First(); 
+        cell.SubstractItemCount();
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 [RequireComponent(typeof(RectTransform))]
 [RequireComponent(typeof(Image))]
-public class InventoryCell : MonoBehaviour
+public class InventoryCell : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
 {
+    public int order;
     private RectTransform rectTransform;
     public InventoryElement currentElement;
     [SerializeField] private Image itemHolder;
@@ -30,5 +31,25 @@ public class InventoryCell : MonoBehaviour
         }
         else SetItem(element);
         currentElement = element; 
+    }
+
+    public void SubstractItemCount()
+    {
+        itemCounter.text = (Convert.ToInt32(itemCounter.text) - 1).ToString();
+        if (itemCounter.text == "0"){ 
+            currentElement = null; //Типа обнуляем
+            itemHolder.sprite = null;
+        }
+    }
+
+    public void OnPointerClick(PointerEventData data) 
+    {
+        //То есть, при выборе элемента селектором он будет запоминаться
+        ItemSelector.instance.currentlySelected = currentElement; 
+    }
+
+    public void OnPointerExit(PointerEventData data)
+    {
+
     }
 }
