@@ -8,7 +8,6 @@ public class BattleGrid : Singleton<BattleGrid>
     [SerializeField] private Bounds _bounds;
     [SerializeField] private SelectableResource _resourcePrefab;
     [SerializeField] private InventoryElement[] _levelElements;
-    
     private void Awake()
     {
         var currentPosition = _bounds.min + new Vector3(1, 1) * 0.5f * _cellSize;

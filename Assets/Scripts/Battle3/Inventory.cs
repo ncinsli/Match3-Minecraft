@@ -14,7 +14,14 @@ public class Inventory : ScriptableSingleton<Inventory>
     {
         if (InventoryMap.TryGetValue(element.ID, out int c)) InventoryMap[element.ID] += count;      
         else InventoryMap.Add(element.ID, count); 
-        for(int i = 0; i < count; i++) InventoryGUI.instance.AddElement(element); 
+        for (int i = 0; i < count; i++) InventoryGUI.instance.AddElement(element); 
+    }
+
+    public void Remove(InventoryElement element, int count)
+    {
+        if (InventoryMap.TryGetValue(element.ID, out int c)) InventoryMap[element.ID] += count;
+        else InventoryMap[element.ID]--;
+        for (int i = 0; i < count; i++) InventoryGUI.instance.SubstractElement(element);
     }
     private void Serialize() //Запись
     {
